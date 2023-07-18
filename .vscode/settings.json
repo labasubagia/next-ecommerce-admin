@@ -18,7 +18,10 @@
   "css.lint.unknownAtRules": "ignore",
   "cSpell.words": [
     "clsx",
+    "hookform",
+    "lucide",
     "nextjs",
-    "trpc"
+    "trpc",
+    "zustand"
   ]
 }
