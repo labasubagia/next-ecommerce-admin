@@ -7,7 +7,7 @@ import { ToastProvider } from '@/providers/toast-provider';
 
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Admin dashboard',
