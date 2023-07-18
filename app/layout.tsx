@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import { ModalProvider } from '@/providers/modal-provider';
+import { ToastProvider } from '@/providers/toast-provider';
 
 import './globals.css';
 
@@ -21,7 +22,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={inter.className}>
+        <body className={inter.className} suppressHydrationWarning={true}>
+          <ToastProvider />
           <ModalProvider />
           {children}
         </body>

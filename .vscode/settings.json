@@ -18,6 +18,7 @@
   "css.lint.unknownAtRules": "ignore",
   "cSpell.words": [
     "clsx",
+    "datasource",
     "hookform",
     "lucide",
     "nextjs",
