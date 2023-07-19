@@ -17,9 +17,11 @@
   },
   "css.lint.unknownAtRules": "ignore",
   "cSpell.words": [
+    "cloudinary",
     "clsx",
     "datasource",
     "hookform",
+    "ldiebg",
     "lucide",
     "nextjs",
     "trpc",
