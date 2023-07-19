@@ -72,6 +72,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       } else {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
+      router.refresh();
       router.push(`/${params.storeId}/billboards`);
       toast.success(toastMessage);
     } catch (error) {
@@ -87,7 +88,8 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
       await axios.delete(
         `/api/${params.storeId}/billboards/${params.billboardId}`,
       );
-      router.push('/');
+      router.refresh();
+      router.push(`/${params.storeId}/billboards`);
       toast.success('Billboard deleted.');
     } catch (error) {
       toast.error('Make sure you remove all categories using this billboard.');
@@ -166,7 +168,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({
           </Button>
         </form>
       </Form>
-      <Separator />
     </>
   );
 };
