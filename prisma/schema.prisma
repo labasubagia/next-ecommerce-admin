@@ -15,19 +15,36 @@ model Store {
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
   billboards Billboard[] @relation("StoreToBillboard")
+  categories Category[]  @relation("StoreToCategory")
 
   @@map("stores")
 }
 
 model Billboard {
-  id        String   @id @default(uuid()) @map("id")
-  storeId   String   @map("store_id")
-  label     String   @map("label")
-  imageUrl  String   @map("image_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  store     Store    @relation("StoreToBillboard", fields: [storeId], references: [id])
+  id         String     @id @default(uuid()) @map("id")
+  storeId    String     @map("store_id")
+  label      String     @map("label")
+  imageUrl   String     @map("image_url")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
+  store      Store      @relation("StoreToBillboard", fields: [storeId], references: [id])
+  categories Category[] @relation("BillboardToCategory")
 
   @@index([storeId])
   @@map("billboards")
+}
+
+model Category {
+  id          String    @id @default(uuid()) @map("id")
+  storeId     String    @map("store_id")
+  billboardId String    @map("billboard_id")
+  name        String    @map("name")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  store       Store     @relation("StoreToCategory", fields: [storeId], references: [id])
+  billboard   Billboard @relation("BillboardToCategory", fields: [billboardId], references: [id])
+
+  @@index([storeId])
+  @@index([billboardId])
+  @@map("categories")
 }
