@@ -27,7 +27,8 @@ const ProductPage = async ({
     <div className="flex-col">
       <div className="flex-1 space-y-1 p-8 pt-6">
         <ProductForm
-          initialData={product}
+          // JSON just to silence warning
+          initialData={JSON.parse(JSON.stringify(product))}
           categories={categories}
           sizes={sizes}
           colors={colors}
