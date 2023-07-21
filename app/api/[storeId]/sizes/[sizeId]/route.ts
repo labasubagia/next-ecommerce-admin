@@ -5,30 +5,30 @@ import prismaDb from '@/lib/prisma-db';
 
 export async function GET(
   req: Request,
-  { params }: { params: { categoryId: string } },
+  { params }: { params: { sizeId: string } },
 ) {
   try {
-    if (!params.categoryId) {
-      return new NextResponse('Billboard is required', { status: 400 });
+    if (!params.sizeId) {
+      return new NextResponse('Size ID is required', { status: 400 });
     }
-    const category = await prismaDb.category.findUnique({
-      where: { id: params.categoryId },
+    const size = await prismaDb.size.findUnique({
+      where: { id: params.sizeId },
     });
-    return NextResponse.json(category);
+    return NextResponse.json(size);
   } catch (error) {
-    console.log('[CATEGORY_GET]', error);
+    console.log('[SIZE_GET]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string; categoryId: string } },
+  { params }: { params: { storeId: string; sizeId: string } },
 ) {
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { name, billboardId } = body;
+    const { name, value } = body;
 
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 401 });
@@ -36,14 +36,14 @@ export async function PATCH(
     if (!name) {
       return new NextResponse('Name is required', { status: 400 });
     }
-    if (!billboardId) {
-      return new NextResponse('Billboard ID is required', { status: 400 });
+    if (!value) {
+      return new NextResponse('Value is required', { status: 400 });
     }
     if (!params.storeId) {
       return new NextResponse('Store is required', { status: 400 });
     }
-    if (!params.categoryId) {
-      return new NextResponse('Billboard is required', { status: 400 });
+    if (!params.sizeId) {
+      return new NextResponse('Size ID is required', { status: 400 });
     }
 
     const storeByUserId = await prismaDb.store.findFirst({
@@ -53,21 +53,21 @@ export async function PATCH(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const category = await prismaDb.category.updateMany({
-      where: { id: params.categoryId, storeId: params.storeId },
-      data: { name, billboardId },
+    const size = await prismaDb.size.updateMany({
+      where: { id: params.sizeId, storeId: params.storeId },
+      data: { name, value },
     });
 
-    return NextResponse.json(category);
+    return NextResponse.json(size);
   } catch (error) {
-    console.log('[CATEGORY_PATCH]', error);
+    console.log('[SIZE_PATCH]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { storeId: string; categoryId: string } },
+  { params }: { params: { storeId: string; sizeId: string } },
 ) {
   try {
     const { userId } = auth();
@@ -78,8 +78,8 @@ export async function DELETE(
     if (!params.storeId) {
       return new NextResponse('Store is required', { status: 400 });
     }
-    if (!params.categoryId) {
-      return new NextResponse('Category ID is required', { status: 400 });
+    if (!params.sizeId) {
+      return new NextResponse('Size ID is required', { status: 400 });
     }
 
     const storeByUserId = await prismaDb.store.findFirst({
@@ -89,13 +89,13 @@ export async function DELETE(
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const category = await prismaDb.category.deleteMany({
-      where: { id: params.categoryId, storeId: params.storeId },
+    const size = await prismaDb.size.deleteMany({
+      where: { id: params.sizeId, storeId: params.storeId },
     });
 
-    return NextResponse.json(category);
+    return NextResponse.json(size);
   } catch (error) {
-    console.log('[CATEGORY_DELETE]', error);
+    console.log('[SIZE_DELETE]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
