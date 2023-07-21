@@ -4,7 +4,41 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-const prismaDb = globalThis.prisma || new PrismaClient();
-if (process.env.NODE_ENV !== 'production') globalThis.prisma = prismaDb;
+const isProduction = process.env.NODE_ENV === 'production';
+
+let prismaDb: typeof global.prisma;
+if (globalThis.prisma) {
+  prismaDb = globalThis.prisma;
+} else {
+  const prisma = new PrismaClient({
+    log: [
+      {
+        emit: 'event',
+        level: 'query',
+      },
+      {
+        emit: 'stdout',
+        level: 'error',
+      },
+      {
+        emit: 'stdout',
+        level: 'info',
+      },
+      {
+        emit: 'stdout',
+        level: 'warn',
+      },
+    ],
+  });
+
+  // Log query
+  if (!isProduction) {
+    prisma.$on('query', console.log);
+  }
+
+  prismaDb = prisma;
+}
+
+if (!isProduction) globalThis.prisma = prismaDb;
 
 export default prismaDb;
