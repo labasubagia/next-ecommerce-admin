@@ -6,7 +6,7 @@ declare global {
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-let prismaDb: typeof global.prisma;
+let prismaDb: PrismaClient;
 if (globalThis.prisma) {
   prismaDb = globalThis.prisma;
 } else {
