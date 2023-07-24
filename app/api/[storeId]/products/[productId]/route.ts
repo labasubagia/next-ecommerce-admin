@@ -91,7 +91,7 @@ export async function PATCH(
       },
     });
 
-    const product = prismaDb.product.update({
+    const product = await prismaDb.product.update({
       where: { id: params.productId, storeId: params.storeId },
       data: {
         images: {
