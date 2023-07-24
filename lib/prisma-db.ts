@@ -5,6 +5,7 @@ declare global {
 }
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isLog = process.env.NEXT_PUBLIC_DATABASE_LOG === 'true';
 
 let prismaDb: PrismaClient;
 if (globalThis.prisma) {
@@ -32,7 +33,7 @@ if (globalThis.prisma) {
   });
 
   // Log query
-  if (!isProduction) {
+  if (!isProduction && isLog) {
     prisma.$on('query', console.log);
   }
 
